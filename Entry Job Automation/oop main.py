@@ -30,26 +30,26 @@ class Job_entry_bot:
                           '%22isListVisible%22%3Atrue%7D '
         response = requests.get(url=self.ZILLOW_URL, headers=self.headers)
         zillow_data = response.text
-        chrome_driver_path = 'C:\Development\chromedriver_win32\chromedriver.exe'
-        service = Service(chrome_driver_path)
-        driver = webdriver.Chrome(service=service)
-        driver.get(self.ZILLOW_URL)
-        time.sleep(10)
+#         chrome_driver_path = 'C:\Development\chromedriver_win32\chromedriver.exe'
+#         service = Service(chrome_driver_path)
+#         driver = webdriver.Chrome(service=service)
+#         driver.get(self.ZILLOW_URL)
+#         time.sleep(10)
 
-        #  Slow scroll to bottom
-        scroll_window = driver.find_element(By.ID, "search-page-list-container")
-        multiplier = 0.1
-        for n in range(10):
-            multiplier_str = str(multiplier)
-            driver.execute_script(f"arguments[0].scrollTop = arguments[0].scrollHeight * {multiplier_str}",
-                                  scroll_window)
-            multiplier += 0.1
-            time.sleep(3)
-            soup = BeautifulSoup(zillow_data, 'html.parser')
-            self.soup = BeautifulSoup(zillow_data, 'html.parser')
-            self.links = soup.find_all(name="a", class_="list-card-link")
-            self.prices = soup.find_all(class_="list-card-price")
-            self.addresses = soup.find_all(class_="list-card-addr")
+#         #  Slow scroll to bottom
+#         scroll_window = driver.find_element(By.ID, "search-page-list-container")
+#         multiplier = 0.1
+#         for n in range(10):
+#             multiplier_str = str(multiplier)
+#             driver.execute_script(f"arguments[0].scrollTop = arguments[0].scrollHeight * {multiplier_str}",
+#                                   scroll_window)
+#             multiplier += 0.1
+#             time.sleep(3)
+        soup = BeautifulSoup(zillow_data, 'html.parser')
+        self.soup = BeautifulSoup(zillow_data, 'html.parser')
+        self.links = soup.find_all(name="a", class_="list-card-link")
+        self.prices = soup.find_all(class_="list-card-price")
+        self.addresses = soup.find_all(class_="list-card-addr")
 
     def link(self):
         for link in self.links:
